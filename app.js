@@ -4,6 +4,8 @@
 
 var express = require('express');
 var request = require('request');
+var numeral = require('numeral');
+
 var app = express();
 
 
@@ -36,6 +38,7 @@ app.get('/search/:search_query', function (req, res) {
 			gdata["uploader"] = JSON.parse(body101).data.items[0].uploader;
 			gdata["category"] = JSON.parse(body101).data.items[0].category;
 			gdata["video_id"] = JSON.parse(body101).data.items[0].id;
+			gdata["video_url"] = "http://www.youtube.com/watch?v=" + JSON.parse(body101).data.items[0].id;
 			gdata["thumbnails"] = {
 				'small': JSON.parse(body101).data.items[0].thumbnail.sqDefault,
 				'large': JSON.parse(body101).data.items[0].thumbnail.hqDefault
@@ -46,8 +49,9 @@ app.get('/search/:search_query', function (req, res) {
 			gdata["pretty_duration"] = prettyDurationMin.toString() + ":"+ prettyDurationSeconds.toString();
 			// gdata["duration"] = JSON.parse(body101).data.items[0].duration;
 			gdata["views"] = JSON.parse(body101).data.items[0].viewCount;
+			gdata["pretty_views"] = numeral(JSON.parse(body101).data.items[0].viewCount).format('0,0');
 			gdata["rate"] = JSON.parse(body101).data.items[0].rating;
-
+			
 				
 
 
