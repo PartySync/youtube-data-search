@@ -1,0 +1,24 @@
+{
+  "name": "youtube-data-search",
+  "version": "1.0.0",
+  "description": "Easy-to-use API that grabs relevant data from YouTube videos",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/PartySync/youtube-data-search.git"
+  },
+  "keywords": [
+    "youtube",
+    "yt",
+    "api"
+  ],
+  "author": "Gautam Mittal",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PartySync/youtube-data-search/issues"
+  },
+  "homepage": "https://github.com/PartySync/youtube-data-search"
+}
