@@ -22,6 +22,8 @@
   },
   "homepage": "https://github.com/PartySync/youtube-data-search",
   "dependencies": {
-    "express": "^4.10.7"
+    "express": "^4.10.7",
+    "numeral": "^1.5.3",
+    "request": "^2.51.0"
   }
 }
