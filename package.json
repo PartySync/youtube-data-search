@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/PartySync/youtube-data-search/issues"
   },
-  "homepage": "https://github.com/PartySync/youtube-data-search"
+  "homepage": "https://github.com/PartySync/youtube-data-search",
+  "dependencies": {
+    "express": "^4.10.7"
+  }
 }
