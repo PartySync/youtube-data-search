@@ -3,6 +3,10 @@
 	Under GNU GPL v3
 */
 
+var dotenv = require('dotenv');
+dotenv.load();
+
+
 var express = require('express');
 var request = require('request');
 var numeral = require('numeral');
@@ -34,33 +38,35 @@ app.get('/search/:search_query/:num_results', function (req, res) {
 
 					console.log(suggested_queries);
 
-					request('http://gdata.youtube.com/feeds/api/videos?q='+ req.param("search_query") +'&format=5&max-results='+ req.param('num_results') +'&v=2&alt=jsonc', function (err101, response101, body101) {
+					request('https://www.googleapis.com/youtube/v3/search?safeSearch=moderate&part=snippet&q='+req.param("search_query")+'&maxResults='+ req.param("num_results") +'&key='+ process.env.YOUTUBE_API_KEY, function (err101, response101, body101) {
 						var items = [];
+						console.log(body101)
+						// console.log(data.items.length)
 
-						for (var j = 0; j < JSON.parse(body101).data.items.length; j++) {
+						for (var j = 0; j < JSON.parse(body101).items.length; j++) {
 								var gdata = {};
-								gdata["title"] = JSON.parse(body101).data.items[j].title;
-								gdata["description"] = JSON.parse(body101).data.items[j].description;
-								gdata["uploader"] = JSON.parse(body101).data.items[j].uploader;
-								gdata["category"] = JSON.parse(body101).data.items[j].category;
-								gdata["video_id"] = JSON.parse(body101).data.items[j].id;
-								gdata["video_url"] = "http://www.youtube.com/watch?v=" + JSON.parse(body101).data.items[j].id;
+								gdata["title"] = JSON.parse(body101).items[j].title;
+								gdata["description"] = JSON.parse(body101).items[j].snippet.description;
+								gdata["uploader"] = JSON.parse(body101).items[j].snippet.channelTitle;
+								gdata["category"] = JSON.parse(body101).items[j].category;
+								gdata["video_id"] = JSON.parse(body101).items[j].id.videoId;
+								gdata["video_url"] = "http://www.youtube.com/watch?v=" + JSON.parse(body101).items[j].id;
 								gdata["thumbnails"] = {
-									'small': JSON.parse(body101).data.items[j].thumbnail.sqDefault,
-									'large': JSON.parse(body101).data.items[j].thumbnail.hqDefault
+									'small': JSON.parse(body101).items[j].snippet.thumbnails.default.url,
+									'large': JSON.parse(body101).items[j].snippet.thumbnails.high.url
 								};
-								gdata["duration"] = JSON.parse(body101).data.items[j].duration;
-								var prettyDurationMin = Math.floor((JSON.parse(body101).data.items[j].duration)/60);
-								var prettyDurationSeconds = (JSON.parse(body101).data.items[j].duration)%60;
+								gdata["duration"] = JSON.parse(body101).items[j].duration;
+								var prettyDurationMin = Math.floor((JSON.parse(body101).items[j].duration)/60);
+								var prettyDurationSeconds = (JSON.parse(body101).items[j].duration)%60;
 								if (prettyDurationSeconds < 10) {
 									prettyDurationSeconds = "0" + prettyDurationSeconds.toString();
 								}
 
 								gdata["pretty_duration"] = prettyDurationMin.toString() + ":"+ prettyDurationSeconds.toString();
 								// gdata["duration"] = JSON.parse(body101).data.items[0].duration;
-								gdata["views"] = JSON.parse(body101).data.items[j].viewCount;
-								gdata["pretty_views"] = numeral(JSON.parse(body101).data.items[j].viewCount).format('0,0');
-								gdata["rate"] = JSON.parse(body101).data.items[j].rating;
+								gdata["views"] = JSON.parse(body101).items[j].viewCount;
+								gdata["pretty_views"] = numeral(JSON.parse(body101).items[j].viewCount).format('0,0');
+								gdata["rate"] = JSON.parse(body101).items[j].rating;
 
 								items.push(gdata);
 
