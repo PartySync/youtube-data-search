@@ -7,3 +7,9 @@ Basic usage:
 <li><b>Getting data by YouTube ID:</b> http://partysyncwith.me:3005/id/{YOUTUBE-ID}</li>
 </ul><br />
 This will allow you to pull relevant information from YouTube videos with ease. In addition, the search feature returns suggested searches and has a limit of 50 results.
+
+### Deployment
+Requires a .env file in the project root with a YouTube API Key:
+```
+YOUTUBE_API_KEY=XXXXXXXXXXXXXXXXXXXXXXX
+```
